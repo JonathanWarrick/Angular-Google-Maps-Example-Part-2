@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" ng-app="MapsExample">
+<head>
+	<style>.angular-google-map-container { height: 400px; }</style>
+  <meta charset="utf-8">
+  <title>Angular-Google-Maps Example</title>
+  <script src="bower_components/angular/angular.js"></script>
+  <!-- // <script src='https://maps.googleapis.com/maps/api/js?sensor=false'></script> -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv2IKyoJNIQ9GdJbgnW-StS9yM_iNPoXw"></script>
+	<script src='bower_components/lodash/dist/lodash.compat.js'></script>
+	<script src='bower_components/angular-google-maps/dist/angular-google-maps.js'></script>
+</head>
+<body ng-controller="MapsController">
+	<h1>See the map example below!</h1>
+	  <google-map center="map.center" zoom="map.zoom" draggable="true">
+      <marker ng-repeat="marker in markers" coords="marker.coords" idKey="marker.idKey"></marker>
+    </google-map>
+    <script>
+    	angular.module('MapsExample', [
+    		'google-maps'
+    	])
+    	  .controller('MapsController', function($scope) {
+    	  	// add map with base parameters
+    	  	$scope.map = {
+  	  	    center: {
+	  	        latitude: 37.79,
+	  	        longitude: -122.4175
+  	  	    },
+  	  	    zoom: 13
+    	  	};
+    	  	// add test locations for example
+    	  	$scope.locations = {
+			      spots: [
+			        // {
+			        //   number: 1,
+			        //   latitude: 37.7836377,
+			        //   longitude: -122.4132168
+			        // }
+			      ]
+    			};
+    			// add markers for each location on the loaded tour
+			    $scope.markers = [];
+			    // function to create an individual marker
+			    $scope.createMarker = function(location) {
+			      var marker = {
+			        idKey: location.number,
+			        coords: {
+			          latitude: location.latitude,
+			          longitude: location.longitude
+			        }
+			      };
+			      return marker;
+			    };
+			    
+			    // create a google maps geocoder object
+			    var geocoder = new google.maps.Geocoder();
+			    
+			    $scope.getLatLong = function() {
+			      for (var j = 0; j < $scope.tour.spots.length; j++) {
+			        var address = $scope.tour.spots[j].address;
+			        geocoder.geocode({'address': address}, function(results, status) {
+			          if(status === google.maps.GeocoderStatus.OK) { 
+			            var markerPosition = new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.B);
+			            markerPosition.number = j;
+			            $scope.markers.push($scope.createMarker(markerPosition));
+			          }
+			        });
+			      }
+			      console.log($scope.markers);
+			    };
+
+    	  });
+    </script>
+ </body>
+ 
+
+
+
+
