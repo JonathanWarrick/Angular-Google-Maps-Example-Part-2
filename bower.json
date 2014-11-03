@@ -1,0 +1,15 @@
+
+{
+  "name": "Angular_Google_Maps_Example_Part_2",
+  "version": "0.0.1",
+  "homepage": "https://github.com/JonathanWarrick/Angular-Google-Maps-Example-Part-2",
+  "authors": [
+    "Jonathan Warrick"
+  ],
+  "description": "An introduction to using the Angular-Google-Maps directives.",
+  "dependencies": {
+    "angular": "~1.2.25",
+    "lodash": "~2.4.1",
+    "angular-google-maps": "~1.2.1"
+  }
+}
